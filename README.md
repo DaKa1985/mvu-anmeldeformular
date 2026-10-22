@@ -1,2 +1,2 @@
 # mvu-anmeldeformular
-Projektaufgabe FIAE: mehrseitiges Anmeldeformular nach MVU
+Ein Online-Anmeldeformular für die DigiLEarn GmbH, gebaut nach MVU.
