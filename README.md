@@ -1,2 +1,3 @@
 # mvu-anmeldeformular
-Ein vierseitiges Formular mit Historie, Validierung und JSON-Export
+Ein Online-Anmeldeformular für die DigiLEarn GmbH, gebaut nach MVU.
+ xdhfvkjydhvbkjv
