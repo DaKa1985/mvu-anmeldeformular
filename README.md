@@ -1,2 +1,2 @@
 # mvu-anmeldeformular
-Projektaufgabe FIAE: mehrseitiges Anmeldeformular nach MVU
+Ein vierseitiges Formular mit Historie, Validierung und JSON-Export
