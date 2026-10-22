@@ -7,4 +7,5 @@
 5. Gemeinsame Dateien (types.ts, main.ts) ändern wir nur nach Absprache.
 6. Wir committen klein und oft und puschen spätestens vor jeder Pause. 
 7. Keine echten Personendaten, Passwörter oder Zugangsdaten im Repsitory. 
-8. Jeder Tag beginnt mit einem kurzen Stand-up und endet mit allem gepuscht. 
+8. Jeder Tag beginnt mit einem kurzen Stand-up und endet mit allem gepuscht.
+9. Reviews werden spätestens vor der nächsten Pause durchgeführt.
