@@ -10,7 +10,7 @@ export type Formulardaten = {
   starttermin: string;
   format: "" | "präsenz" | "online";
 
-  rechnungsenpfaenger: "" | "selbst" | "arbeitgeber";
+  rechnungsempfaenger: "" | "selbst" | "arbeitgeber";
   firma: string;
   strasse: string;
   hausnr: string;
@@ -25,7 +25,7 @@ export type Fehler = Partial<Record<keyof Formulardaten, string>>;
 
 export type Model = {
   seite: Seite;
-  hoechstSeite: Seite;
+  hoechsteSeite: Seite;
   daten: Formulardaten;
   fehler: Fehler;
   ladeFehler: string | null;
