@@ -3,14 +3,15 @@ import { describe, it, expect } from "vitest";
 import { init } from "./init";
 import { update } from "./update";
 import type { Model, Seite } from "./types";
+import { gueltigeDaten } from "./testdaten";
 
 //Hilfsfunktion: ein Model auf einer bestimmten Seite
 function aufSeite(seite: Seite, hoechsteSeite: Seite = seite): Model {
-  return { ...init(), seite, hoechsteSeite };
+  return { ...init(), seite, hoechsteSeite, daten: gueltigeDaten() };
 }
 describe("Navigation", () => {
   it("Weiter geht von Seite 1 auf Seite 2 und merkt sich Seite 2", () => {
-    const { model } = update(init(), { typ: "Weiter" });
+    const { model } = update(aufSeite(1), { typ: "Weiter" });
     expect(model.seite).toBe(2);
     expect(model.hoechsteSeite).toBe(2);
   });
@@ -56,5 +57,49 @@ describe("Reinheit", () => {
     update(alt, { typ: "FeldGeaendert", feld: "vorname", wert: "Max" });
     update(alt, { typ: "Weiter" });
     expect(alt).toEqual(kopie);
+  });
+});
+
+describe("Prüfung beim Blättern", () => {
+  it("weiter bleibt bei fehler stehen und zeigt sie an", () => {
+    const { model } = update(init(), { typ: "Weiter" });
+    expect(model.seite).toBe(1);
+    expect(model.fehler.vorname).toBeDefined();
+    expect(model.fehler.email).toBeDefined();
+  });
+
+  it("nach dem ersten Fehler verschwindet die Meldung, sobald das Feld stimmt", () => {
+    const mitFehler = update(init(), { typ: "Weiter" }).model;
+    const { model } = update(mitFehler, {
+      typ: "FeldGeaendert",
+      feld: "vorname",
+      wert: "Max",
+    });
+    expect(model.fehler.vorname).toBeUndefined();
+    expect(model.fehler.nachname).toBeDefined();
+  });
+
+  it("ohne vorherige Fehler erschienen beim Tippen keine Meldungen", () => {
+    const { model } = update(init(), {
+      typ: "FeldGeaendert",
+      feld: "email",
+      wert: "m",
+    });
+    expect(model.fehler).toEqual({});
+  });
+
+  it("Vorwärtsspringen prüft die aktuelle Seite", () => {
+    const start: Model = {
+      ...aufSeite(1, 3),
+      daten: { ...gueltigeDaten(), email: "kaputt" },
+    };
+    const { model } = update(start, { typ: "GeheZuSeite", seite: 3 });
+    expect(model.seite).toBe(1);
+    expect(model.fehler.email).toBeDefined();
+  });
+
+  it("Zurückblättern behält alle Eingaben", () => {
+    const { model } = update(aufSeite(3), { typ: "Zurueck" });
+    expect(model.daten).toEqual(gueltigeDaten());
   });
 });

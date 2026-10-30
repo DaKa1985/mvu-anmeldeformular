@@ -48,8 +48,13 @@ describe("pruefeSeite", () => {
 
   it("Seite 3: Firma ist nur beim Arbeitgeber Pflicht", () => {
     expect(
-      pruefeSeite(3, { ...gueltigeDaten(), firma: "" }).firma,
-    ).toBeDefined();
+      pruefeSeite(3, {
+        ...gueltigeDaten(),
+        rechnungsempfaenger: "selbst",
+        firma: "",
+      }).firma,
+    ).toBeUndefined();
+
     const fehler = pruefeSeite(3, {
       ...gueltigeDaten(),
       rechnungsempfaenger: "arbeitgeber",
