@@ -183,6 +183,48 @@ button {
   cursor: not-allowed;
 }
 
+/* Optionsfelder */
+.optionen {
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.optionen legend {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  padding: 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+}
+
+.option:has(input:checked) {
+  border-color: var(--farbe-primaer);
+  background: #eef4fb;
+}
+
+.feld--fehler .option {
+  border-color: var(--farbe-fehler);
+}
+
+.feld select:disabled {
+  background: var(--farbe-hintergrund);
+}
+
+.reihe--plz {
+  grid-template-columns: 8rem 1fr;
+}
+
 /* Handy: eine Spalte, Schritt-Titel ausblenden */
 @media (max-width: 600px) {
   .formular {

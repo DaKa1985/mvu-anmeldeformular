@@ -3,6 +3,8 @@ import type { Dispatch, Model } from "../types";
 import { el } from "./dom";
 import { fortschritt } from "./fortschritt";
 import { seite1 } from "./seite1";
+import { seite2 } from "./seite2";
+import { seite3 } from "./seite3";
 
 export function view(model: Model, dispatch: Dispatch): HTMLElement {
   return el(
@@ -33,6 +35,10 @@ function inhalt(model: Model, dispatch: Dispatch): HTMLElement {
   switch (model.seite) {
     case 1:
       return seite1(model, dispatch);
+    case 2:
+      return seite2(model, dispatch);
+    case 3:
+      return seite3(model, dispatch);
     default:
       return el("section", { class: "seite" }, `Seite ${model.seite} folgt.`);
   }

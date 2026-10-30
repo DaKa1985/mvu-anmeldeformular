@@ -6,7 +6,7 @@ export type Kurs = {
   termine: string[]; // Starttermin als YYYY-mm-DD
 };
 
-export const kurse: Kurs[] = [
+export const KURSE: Kurs[] = [
   {
     id: "ts-grundlagen",
     name: "TypeScript Grundlagen",
@@ -31,5 +31,5 @@ export const kurse: Kurs[] = [
 
 //Sucht einen Kurs anhand der ID
 export function findeKurs(id: string): Kurs | undefined {
-  return kurse.find((kurs) => kurs.id === id);
+  return KURSE.find((kurs) => kurs.id === id);
 }
