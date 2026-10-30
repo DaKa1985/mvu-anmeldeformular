@@ -1,0 +1,199 @@
+:root {
+  --farbe-primaer: #1f5fa8;
+  --farbe-primaer-dunkel: #164a85;
+  --farbe-text: #1d2733;
+  --farbe-grau: #6b7684;
+  --farbe-linie: #d5dbe3;
+  --farbe-hintergrund: #f4f6f9;
+  --farbe-fehler: #b3261e;
+  --radius: 8px;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  color: var(--farbe-text);
+  background: var(--farbe-hintergrund);
+}
+
+body {
+  margin: 0;
+}
+
+.formular {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.08);
+}
+
+.kopf .marke {
+  margin: 0;
+  color: var(--farbe-grau);
+  font-size: 0.9rem;
+}
+
+.kopf h1 {
+  margin: 0.25rem 0 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* Fortschrittsanzeige */
+.fortschritt {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+}
+
+.schritt {
+  flex: 1;
+}
+
+.schritt button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  color: var(--farbe-grau);
+  cursor: pointer;
+}
+
+.schritt button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.schritt-nr {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid var(--farbe-linie);
+  font-weight: 600;
+}
+
+.schritt--besucht .schritt-nr {
+  border-color: var(--farbe-primaer);
+  color: var(--farbe-primaer);
+}
+
+.schritt--aktuell .schritt-nr {
+  background: var(--farbe-primaer);
+  border-color: var(--farbe-primaer);
+  color: white;
+}
+
+.schritt--aktuell .schritt-titel {
+  color: var(--farbe-text);
+  font-weight: 600;
+}
+
+.schritt-titel {
+  font-size: 0.8rem;
+}
+
+/* Seiten und Felder */
+.seite h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1rem;
+}
+
+.reihe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.feld {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.feld label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.feld input,
+.feld select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.feld input:focus,
+.feld select:focus {
+  outline: 2px solid var(--farbe-primaer);
+  outline-offset: 1px;
+}
+
+.feld--fehler input,
+.feld--fehler select {
+  border-color: var(--farbe-fehler);
+}
+
+.fehlertext {
+  margin: 0;
+  color: var(--farbe-fehler);
+  font-size: 0.875rem;
+}
+
+/* Schaltflächen */
+button {
+  font: inherit;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--farbe-linie);
+}
+
+.knopf {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--farbe-linie);
+  background: white;
+  cursor: pointer;
+}
+
+.knopf--primaer {
+  background: var(--farbe-primaer);
+  border-color: var(--farbe-primaer);
+  color: white;
+}
+
+.knopf--primaer:hover {
+  background: var(--farbe-primaer-dunkel);
+}
+
+.knopf:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Handy: eine Spalte, Schritt-Titel ausblenden */
+@media (max-width: 600px) {
+  .formular {
+    margin: 0;
+    border-radius: 0;
+    padding: 1rem;
+  }
+  .reihe {
+    grid-template-columns: 1fr;
+  }
+  .schritt-titel {
+    display: none;
+  }
+}
