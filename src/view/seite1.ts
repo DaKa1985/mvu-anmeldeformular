@@ -8,6 +8,7 @@ export function seite1(model: Model, dispatch: Dispatch): HTMLElement {
     "section",
     { class: "seite" },
     el("h2", {}, "1. Persönliche Daten"),
+    laden(model, dispatch),
     el(
       "div",
       { class: "reihe" },
@@ -30,5 +31,31 @@ export function seite1(model: Model, dispatch: Dispatch): HTMLElement {
         autocomplete: "tel",
       }),
     ),
+  );
+}
+
+// Schaltfläche "Gespeicherte Anmeldung laden" mit Fehlermeldung
+function laden(model: Model, dispatch: Dispatch): HTMLElement {
+  return el(
+    "div",
+    { class: "laden" },
+    el("input", {
+      id: "datei-laden",
+      type: "file",
+      accept: ".json,application/json",
+      class: "versteckt",
+      change: (ereignis) => {
+        const datei = (ereignis.target as HTMLInputElement).files?.[0];
+        if (datei) dispatch({ typ: "DateiAusgewaehlt", datei });
+      },
+    }),
+    el(
+      "label",
+      { for: "datei-laden", class: "knopf" },
+      "Gespeicherte Anmeldung laden",
+    ),
+    model.ladeFehler
+      ? el("p", { class: "fehlertext", role: "alert" }, model.ladeFehler)
+      : "",
   );
 }
