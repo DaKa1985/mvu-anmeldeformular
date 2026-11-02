@@ -6,8 +6,19 @@ import { seite1 } from "./seite1";
 import { seite2 } from "./seite2";
 import { seite3 } from "./seite3";
 import { seite4 } from "./seite4";
+import { bestaetigung } from "./bestaetigung";
 
 export function view(model: Model, dispatch: Dispatch): HTMLElement {
+  // Nach dem Absenden: nur Kopf und Bestätigung, keine Fortschrittsanzeige, keine Navigation
+  if (model.abgeschickt) {
+    return el(
+      "main",
+      { class: "formular" },
+      kopf(),
+      bestaetigung(model, dispatch),
+    );
+  }
+
   return el(
     "main",
     { class: "formular" },
