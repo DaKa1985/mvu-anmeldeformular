@@ -4,6 +4,7 @@ import { init } from "./init";
 import { update } from "./update";
 import type { Model, Seite } from "./types";
 import { gueltigeDaten } from "./testdaten";
+import { alsJson } from "./datei";
 
 //Hilfsfunktion: ein Model auf einer bestimmten Seite
 function aufSeite(seite: Seite, hoechsteSeite: Seite = seite): Model {
@@ -163,5 +164,52 @@ describe("Absenden und Neue Anmeldung", () => {
     const abgeschickt: Model = { ...aufSeite(4), abgeschickt: true };
     const { model } = update(abgeschickt, { typ: "NeueAnmeldung" });
     expect(model).toEqual(init());
+  });
+});
+
+describe("Dateien", () => {
+  it("Speichern ändert das Model nicht und beauftragt einen Download", () => {
+    const start = aufSeite(4);
+    const { model, effekte } = update(start, { typ: "SpeichernGeklickt" });
+    expect(model).toBe(start);
+    expect(effekte).toEqual([
+      {
+        typ: "DateiHerunterladen",
+        dateiname: "anmeldung-mustermann.json",
+        inhalt: alsJson(gueltigeDaten()),
+      },
+    ]);
+  });
+
+  it("eine ausgewählte Datei wird zum Lesen beauftragt", () => {
+    const datei = new File(["{}"], "anmeldung.json");
+    const { effekte } = update(init(), { typ: "DateiAusgewaehlt", datei });
+    expect(effekte).toEqual([{ typ: "DateiLesen", datei }]);
+  });
+
+  it("eine gültige Datei wird übernommen und zeigt die Zusammenfassung", () => {
+    const { model } = update(init(), {
+      typ: "DateiGeladen",
+      inhalt: alsJson(gueltigeDaten()),
+    });
+    expect(model.seite).toBe(4);
+    expect(model.hoechsteSeite).toBe(4);
+    expect(model.daten.vorname).toBe("Max");
+    expect(model.ladeFehler).toBeNull();
+  });
+
+  it("eine ungültige Datei lässt das Formular unverändert und meldet einen Fehler", () => {
+    const start = aufSeite(1);
+    const { model } = update(start, { typ: "DateiGeladen", inhalt: "kaputt" });
+    expect(model.daten).toBe(start.daten);
+    expect(model.seite).toBe(1);
+    expect(model.ladeFehler).toContain("nicht geladen");
+  });
+
+  it("Absenden beauftragt den Download der Anmeldung", () => {
+    const { model, effekte } = update(aufSeite(4), { typ: "Absenden" });
+    expect(model.abgeschickt).toBe(true);
+    expect(effekte).toHaveLength(1);
+    expect(effekte[0].typ).toBe("DateiHerunterladen");
   });
 });
