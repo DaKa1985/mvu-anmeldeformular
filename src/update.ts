@@ -1,6 +1,7 @@
 // src/update.ts
 import type { Model, Msg, Seite, UpdateErgebnis } from "./types";
 import { hatFehler, pruefeSeite } from "./validierung";
+import { init } from "./init";
 
 // Hilfsfunktion: neues Model ohne Effekte
 function nur(model: Model): UpdateErgebnis {
@@ -9,14 +10,17 @@ function nur(model: Model): UpdateErgebnis {
 
 export function update(model: Model, msg: Msg): UpdateErgebnis {
   switch (msg.typ) {
-    case "FeldGeaendert":
-      const daten = { ...model.daten, [msg.feld]: msg.wert };
-      // Sind schon Fehler sichtbar, wird bei jeder Änderung geprüft, ob der Fehler noch besteht
-      // So verschwindet eine Meldung, sobald der Fehler behoben ist
+    case "FeldGeaendert": {
+      let daten = { ...model.daten, [msg.feld]: msg.wert };
+      // Neuer Kurs: Der alte Termin gehört zu einem anderen Kurs und passt nicht mehr.
+      if (msg.feld === "kurs" && msg.wert !== model.daten.kurs) {
+        daten = { ...daten, starttermin: "" };
+      }
       const fehler = hatFehler(model.fehler)
         ? pruefeSeite(model.seite, daten)
         : {};
       return nur({ ...model, daten, fehler });
+    }
 
     case "Weiter": {
       if (model.seite === 4) return nur(model);
@@ -31,6 +35,28 @@ export function update(model: Model, msg: Msg): UpdateErgebnis {
         fehler: {},
       });
     }
+
+    case "DatenschutzGeaendert": {
+      const daten = { ...model.daten, datenschutz: msg.wert };
+      const fehler = hatFehler(model.fehler)
+        ? pruefeSeite(model.seite, daten)
+        : {};
+      return nur({ ...model, daten, fehler });
+    }
+
+    case "Absenden": {
+      if (model.abgeschickt) return nur(model);
+      // Alle Seiten prüfen. Bei Fehlern zur ersten fehlerhaften Seite springen.
+      for (const seite of [1, 2, 3, 4] as const) {
+        const fehler = pruefeSeite(seite, model.daten);
+        if (hatFehler(fehler)) return nur({ ...model, seite, fehler });
+      }
+      // Der Download der JSON-Datei kommt an Tag 5 als Effekt dazu.
+      return nur({ ...model, abgeschickt: true, fehler: {} });
+    }
+
+    case "NeueAnmeldung":
+      return nur(init());
 
     case "Zurueck":
       if (model.seite === 1) return nur(model);
