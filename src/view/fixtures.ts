@@ -69,3 +69,23 @@ export const zusammenfassung: Model = {
   hoechsteSeite: 4,
   daten: ausgefuellt,
 };
+
+// 7. Absenden ohne Häkchen versucht
+export const zusammenfassungMitFehler: Model = {
+  ...zusammenfassung,
+  fehler: { datenschutz: "Bitte stimmen Sie der Datenschutzerklärung zu." },
+};
+
+// 8. Erfolgreich abgeschickt
+export const abgeschickt: Model = {
+  ...zusammenfassung,
+  daten: { ...ausgefuellt, datenschutz: true },
+  abgeschickt: true,
+};
+
+// 9. Laden einer kaputten Datei versucht
+export const mitLadeFehler: Model = {
+  ...init(),
+  ladeFehler:
+    "Die Datei konnte nicht geladen werden. Sie enthält kein gültiges JSON.",
+};

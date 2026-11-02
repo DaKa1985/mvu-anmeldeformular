@@ -28,23 +28,11 @@ export function seite4(model: Model, dispatch: Dispatch): HTMLElement {
     gruppe(dispatch, 2, "Kurswahl", [
       ["Kurs", kurs ? kurs.name : "–"],
       ["Starttermin", d.starttermin ? datumDeutsch(d.starttermin) : "–"],
-      [
-        "Format",
-        d.format === "präsenz"
-          ? "Präsenz in Lübeck"
-          : d.format === "online"
-            ? "Online"
-            : "–",
-      ],
+      [ "Format", d.format === "präsenz" ? "Präsenz in Lübeck" : d.format === "online" ? "Online" : "–"],
     ]),
 
     gruppe(dispatch, 3, "Rechnung", [
-      [
-        "Empfänger",
-        d.rechnungsempfaenger === "arbeitgeber"
-          ? `Arbeitgeber: ${d.firma}`
-          : "Ich selbst",
-      ],
+      ["Empfänger", d.rechnungsempfaenger === "arbeitgeber" ? `Arbeitgeber: ${d.firma}` : "Ich selbst"],
       ["Anschrift", `${d.strasse}, ${d.plz} ${d.ort}`],
     ]),
     // Datenschutz-Häkchen
@@ -60,9 +48,7 @@ export function seite4(model: Model, dispatch: Dispatch): HTMLElement {
           checked: d.datenschutz,
           change: (ereignis) =>
             dispatch({
-              typ: "DatenschutzGeaendert",
-              wert: (ereignis.target as HTMLInputElement).checked,
-            }),
+              typ: "DatenschutzGeaendert", wert: (ereignis.target as HTMLInputElement).checked }),
         }),
         "Ich habe die Datenschutzhinweise gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *",
       ),
@@ -72,35 +58,14 @@ export function seite4(model: Model, dispatch: Dispatch): HTMLElement {
     el(
       "div",
       { class: "aktionen" },
-      el(
-        "button",
-        {
-          type: "button",
-          class: "knopf",
-          click: () => dispatch({ typ: "SpeichernGeklickt" }),
-        },
-        "Als Datei speichern",
-      ),
-      el(
-        "button",
-        {
-          type: "button",
-          class: "knopf knopf--primaer",
-          click: () => dispatch({ typ: "Absenden" }),
-        },
-        "Absenden",
-      ),
+      el("button", { type: "button", class: "knopf", click: () => dispatch({ typ: "SpeichernGeklickt" }) }, "Als Datei speichern"),
+      el("button", { type: "button", class: "knopf knopf--primaer", click: () => dispatch({ typ: "Absenden" }) }, "Absenden"),
     ),
   );
 }
 
 // Eine Gruppe der Zusammenfassung mit Überschrift, Ändern-Link und Zeilen
-function gruppe(
-  dispatch: Dispatch,
-  seite: Seite,
-  titel: string,
-  zeilen: [string, string][],
-): HTMLElement {
+function gruppe(dispatch: Dispatch, seite: Seite, titel: string, zeilen: [string, string][]): HTMLElement {
   return el(
     "div",
     { class: "zusammenfassung" },
@@ -108,23 +73,9 @@ function gruppe(
       "div",
       { class: "zusammenfassung-kopf" },
       el("h3", {}, titel),
-      el(
-        "button",
-        {
-          type: "button",
-          class: "link",
-          click: () => dispatch({ typ: "GeheZuSeite", seite }),
-        },
-        "Ändern",
+      el("button", { type: "button", class: "link", click: () => dispatch({ typ: "GeheZuSeite", seite }) }, "Ändern",
       ),
     ),
-    el(
-      "dl",
-      {},
-      ...zeilen.flatMap(([name, wert]) => [
-        el("dt", {}, name),
-        el("dd", {}, wert),
-      ]),
-    ),
+    el("dl", {}, ...zeilen.flatMap(([name, wert]) => [el("dt", {}, name), el("dd", {}, wert)])),
   );
 }
