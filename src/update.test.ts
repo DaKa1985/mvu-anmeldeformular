@@ -103,3 +103,65 @@ describe("Prüfung beim Blättern", () => {
     expect(model.daten).toEqual(gueltigeDaten());
   });
 });
+describe("Kurswechsel und Datenschutz", () => {
+  it("ein neuer Kurs setzt den Starttermin zurück", () => {
+    const { model } = update(aufSeite(2), {
+      typ: "FeldGeaendert",
+      feld: "kurs",
+      wert: "agil-scrum",
+    });
+    expect(model.daten.kurs).toBe("agil-scrum");
+    expect(model.daten.starttermin).toBe("");
+  });
+
+  it("derselbe Kurs lässt den Termin stehen", () => {
+    const { model } = update(aufSeite(2), {
+      typ: "FeldGeaendert",
+      feld: "kurs",
+      wert: "ts-grundlagen",
+    });
+    expect(model.daten.starttermin).toBe("2027-01-11");
+  });
+
+  it("das Datenschutz-Häkchen wird übernommen", () => {
+    const { model } = update(aufSeite(4), {
+      typ: "DatenschutzGeaendert",
+      wert: false,
+    });
+    expect(model.daten.datenschutz).toBe(false);
+  });
+});
+
+describe("Absenden und Neue Anmeldung", () => {
+  it("mit gültigen Daten wird abgeschickt", () => {
+    const { model } = update(aufSeite(4), { typ: "Absenden" });
+    expect(model.abgeschickt).toBe(true);
+  });
+
+  it("ohne Häkchen bleibt es auf Seite 4 mit Fehler", () => {
+    const start: Model = {
+      ...aufSeite(4),
+      daten: { ...gueltigeDaten(), datenschutz: false },
+    };
+    const { model } = update(start, { typ: "Absenden" });
+    expect(model.abgeschickt).toBe(false);
+    expect(model.seite).toBe(4);
+    expect(model.fehler.datenschutz).toBeDefined();
+  });
+
+  it("springt zur ersten Seite mit Fehlern", () => {
+    const start: Model = {
+      ...aufSeite(4),
+      daten: { ...gueltigeDaten(), plz: "123" },
+    };
+    const { model } = update(start, { typ: "Absenden" });
+    expect(model.seite).toBe(3);
+    expect(model.fehler.plz).toBeDefined();
+  });
+
+  it("Neue Anmeldung setzt alles auf den Start zurück", () => {
+    const abgeschickt: Model = { ...aufSeite(4), abgeschickt: true };
+    const { model } = update(abgeschickt, { typ: "NeueAnmeldung" });
+    expect(model).toEqual(init());
+  });
+});
