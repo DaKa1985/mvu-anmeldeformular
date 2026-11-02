@@ -5,6 +5,7 @@ import { fortschritt } from "./fortschritt";
 import { seite1 } from "./seite1";
 import { seite2 } from "./seite2";
 import { seite3 } from "./seite3";
+import { seite4 } from "./seite4";
 
 export function view(model: Model, dispatch: Dispatch): HTMLElement {
   return el(
@@ -39,6 +40,8 @@ function inhalt(model: Model, dispatch: Dispatch): HTMLElement {
       return seite2(model, dispatch);
     case 3:
       return seite3(model, dispatch);
+    case 4:
+      return seite4(model, dispatch);
     default:
       return el("section", { class: "seite" }, `Seite ${model.seite} folgt.`);
   }
