@@ -49,9 +49,29 @@ function zeichne(): void {
   }
 }
 
-// Führt Aufträge an die Außenwelt aus. Kommt an Tag 5.
+// Führt Aufträge an die Außenwelt aus. Der einzige Ort mit Datei-Zugriff.
 function fuehreAus(effekt: Effekt): void {
-  console.log("Effekt (noch nicht umgesetzt):", effekt);
+  switch (effekt.typ) {
+    case "DateiHerunterladen": {
+      // normaler Browser-Download über einen unsichtbaren Link
+      const blob = new Blob([effekt.inhalt], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = effekt.dateiname;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000); // Speicher wieder freigeben
+      break;
+    }
+
+    case "DateiLesen":
+      // Lesen dauert einen Moment. Das Ergebnis kommt als neue Msg zurück.
+      effekt.datei
+        .text()
+        .then((inhalt) => dispatch({ typ: "DateiGeladen", inhalt }))
+        .catch(() => dispatch({ typ: "DateiGeladen", inhalt: "" }));
+      break;
+  }
 }
 
 zeichne();
