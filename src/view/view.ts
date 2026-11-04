@@ -62,35 +62,31 @@ function navigation(model: Model, dispatch: Dispatch): HTMLElement {
   return el(
     "nav",
     { class: "navigation" },
+    el("button", {
+      type: "button",
+      id: "knopf-zurueck",
+      class: "knopf",
+      disabled: model.seite === 1,
+      click: () => dispatch({ typ: "Zurueck" }),
+    }),
     el(
       "button",
       {
         type: "button",
-        class: "knopf",
-        disabled: model.seite === 1,
-        click: () => dispatch({ typ: "Zurueck" }),
-      },
-      "Zurück",
-    ),
-    el(
-      "button",
-      {
-        type: "button",
+        id: "knopf-rueckgaengig",
         class: "knopf",
         click: () => dispatch({ typ: "Rueckgaengig" }),
       },
       "Rückgängig",
     ),
+
     model.seite < 4
-      ? el(
-          "button",
-          {
-            type: "button",
-            class: "knopf knopf--primaer",
-            click: () => dispatch({ typ: "Weiter" }),
-          },
-          "Weiter",
-        )
+      ? el("button", {
+          type: "button",
+          id: "knopf-weiter",
+          class: "knopf knopf--primaer",
+          click: () => dispatch({ typ: "Weiter" }),
+        })
       : el("span"), // Seite 4 bekommt eigene Schaltflächen
   );
 }

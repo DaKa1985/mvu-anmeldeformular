@@ -21,6 +21,7 @@ export function textfeld(
       type: "text",
       value: model.daten[feld],
       "aria-invalid": fehler ? "true" : "false",
+      "aria-describedby": fehler ? `${feld}-fehler` : false,
       ...extra,
 
       // bei jedem Tastendruck eine Msg losschicken
@@ -31,7 +32,9 @@ export function textfeld(
           wert: (ereignis.target as HTMLInputElement).value,
         }),
     }),
-    fehler ? el("p", { class: "fehlertext" }, fehler) : "",
+    fehler
+      ? el("p", { class: "fehlertext", id: `${feld}-fehler` }, fehler)
+      : "",
   );
 }
 
@@ -59,6 +62,7 @@ export function auswahl(
         id: feld,
         disabled: eintraege.length === 0, // z. B. Termin, solange kein Kurs gewählt ist
         "aria-invalid": fehler ? "true" : "false",
+        "aria-describedby": fehler ? `${feld}-fehler` : false,
         change: (ereignis) =>
           dispatch({
             typ: "FeldGeaendert",
@@ -71,7 +75,9 @@ export function auswahl(
         el("option", { value: e.wert, selected: e.wert === gewaehlt }, e.text),
       ),
     ),
-    fehler ? el("p", { class: "fehlertext" }, fehler) : "",
+    fehler
+      ? el("p", { class: "fehlertext", id: `${feld}-fehler` }, fehler)
+      : "",
   );
 }
 
@@ -86,7 +92,10 @@ export function optionsfelder(
   const fehler = model.fehler[feld];
   return el(
     "fieldset",
-    { class: fehler ? "feld optionen feld--fehler" : "feld optionen" },
+    {
+      class: fehler ? "feld optionen feld--fehler" : "feld optionen",
+      "aria-describedby": fehler ? `${feld}-fehler` : false,
+    },
     el("legend", {}, beschriftung + " *"),
     ...eintraege.map((e) =>
       el(
@@ -103,7 +112,9 @@ export function optionsfelder(
         e.text,
       ),
     ),
-    fehler ? el("p", { class: "fehlertext" }, fehler) : "",
+    fehler
+      ? el("p", { class: "fehlertext", id: `${feld}-fehler` }, fehler)
+      : "",
   );
 }
 
