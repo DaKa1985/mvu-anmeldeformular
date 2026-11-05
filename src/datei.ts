@@ -25,13 +25,11 @@ const TEXT_FELDER: TextFeld[] = [
 // Das Datenschutz-Häkchen wird bewusst nicht gespeichert (Entscheidung B6).
 // Felder mit undefined lässt JSON.stringify einfach weg.
 export function alsJson(daten: Formulardaten): string {
-  return JSON.stringify(
-    { version: DATEI_VERSION, daten: { ...daten, datenschutz: undefined } },
-    null,
-    2,
-  );
+  // Leerzeichen am Anfang und Ende aller Textfelder entfernen, z. B. bei " max@example.com "
+  const bereinigt: Record<string, string> = {};
+  for (const feld of TEXT_FELDER) bereinigt[feld] = daten[feld].trim();
+  return JSON.stringify({ version: DATEI_VERSION, daten: bereinigt }, null, 2);
 }
-
 // "Müller-Lüdenscheidt" wird zu "anmeldung-mueller-luedenscheidt.json"
 export function dateiname(daten: Formulardaten): string {
   const name = daten.nachname
