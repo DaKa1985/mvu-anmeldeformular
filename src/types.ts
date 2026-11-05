@@ -8,7 +8,7 @@ export type Formulardaten = {
 
   kurs: string;
   starttermin: string;
-  format: "" | "präsenz" | "online";
+  format: "" | "praesenz" | "online";
 
   rechnungsempfaenger: "" | "selbst" | "arbeitgeber";
   firma: string;

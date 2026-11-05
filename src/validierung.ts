@@ -30,7 +30,7 @@ export function pruefeSeite(seite: Seite, d: Formulardaten): Fehler {
     if (!kurs || !kurs.termine.includes(d.starttermin)) {
       fehler.starttermin = "Bitte wählen Sie einen gültigen Starttermin aus";
     }
-    if (d.format !== "präsenz" && d.format !== "online") {
+    if (d.format !== "praesenz" && d.format !== "online") {
       fehler.format = "Bitte wählen Sie Präsenz oder Online";
     }
   }
