@@ -32,6 +32,20 @@ describe("Speichern", () => {
   });
 });
 
+describe("Bereinigen beim Speichern", () => {
+  it("entfernt Leerzeichen am Anfang und Ende", () => {
+    const datei = JSON.parse(
+      alsJson({
+        ...gueltigeDaten(),
+        email: "  max@example.com ",
+        ort: " Lübeck",
+      }),
+    );
+    expect(datei.daten.email).toBe("max@example.com");
+    expect(datei.daten.ort).toBe("Lübeck");
+  });
+});
+
 describe("Laden", () => {
   it("Speichern und Laden ergibt wieder dieselben Daten", () => {
     const ergebnis = ausJson(alsJson(gueltigeDaten()));
