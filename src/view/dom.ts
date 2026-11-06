@@ -1,7 +1,8 @@
 // src/view/dom.ts – kleiner Bauhelfer für HTML-Elemente
 
 // Ein Attribut ist entweder ein Text, ein Ja/Nein oder eine Funktion für ein Ereignis.
-type Attribute = Record<string, string | boolean | ((ereignis: Event) => void)>;
+type Attributwert = string | boolean | ((ereignis: Event) => void);
+type Attribute = Record<string, Attributwert>;
 
 export function el(
   tag: string,
@@ -19,6 +20,14 @@ export function el(
       element.setAttribute(name, wert); // z. B. class, id, type, value
     }
   }
-  element.append(...kinder);
+
+  for (const kind of kinder) {
+    if (typeof kind === "string") {
+      element.appendChild(document.createTextNode(kind));
+    } else {
+      element.appendChild(kind);
+    }
+  }
+
   return element;
 }
