@@ -59,15 +59,5 @@ Effekte, ausgeführt in `main.ts`: `DateiHerunterladen` (Download über den Brow
 
 ## 5. Planung und Zusammenarbeit
 
-- **Tag 1:** Git eingerichtet und geübt, offene Punkte mit der Lehrkraft
-  geklärt ([Entscheidungen](entscheidungen.md)).
-- **Tag 2:** Skizzen der vier Seiten, Model und Messages gemeinsam als
-  `types.ts` festgelegt.
-- **Tag 3 bis 5:** Parallele Umsetzung. Die View entstand gegen Beispiel-
-  Models, die Logik gegen Tests. Zusammengeführt an Tag 4 in `main.ts`.
-- **Tag 6 bis 8:** Abnahmetest gegen jede Anforderung, Fehlerbehebung,
-  Barrierefreiheit, Dokumentation.
-  Arbeitsweise: Keine Änderung direkt auf `main`, jede über Branch, Pull
-  Request und Review der anderen Person. Aufgaben als Issues auf einem GitHub-
-  Projekt-Board, täglich ein kurzes Stand-up. Die [Skizzen](skizzen/) liegen in
-  zwei Versionen vor: aus der Planung und nach der Umsetzung.
+Arbeitsweise: Keine Änderung direkt auf `main`, jede über Branch, Pull
+Request und Review der anderen Person. Täglich ein kurzes Stand-up.
