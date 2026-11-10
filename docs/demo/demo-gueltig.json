@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "daten": {
+    "vorname": "Max",
+    "nachname": "Mustermann",
+    "email": "max.mustermann@example.com",
+    "telefon": "",
+    "kurs": "ts-grundlagen",
+    "starttermin": "2027-01-11",
+    "format": "online",
+    "rechnungsempfaenger": "selbst",
+    "firma": "",
+    "strasse": "Musterstraße 1",
+    "hausnr": "",
+    "plz": "23552",
+    "ort": "Lübeck"
+  }
+}
