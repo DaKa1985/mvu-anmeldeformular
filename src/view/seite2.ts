@@ -28,7 +28,7 @@ export function seite2(model: Model, dispatch: Dispatch): HTMLElement {
       termine.map((t) => ({ wert: t, text: datumDeutsch(t) })),
     ),
     optionsfelder(model, dispatch, "format", "Format", [
-      { wert: "praesenz", text: "Präsenz in Lübeck" },
+      { wert: "präsenz", text: "Präsenz in Lübeck" },
       { wert: "online", text: "Online" },
     ]),
   );
